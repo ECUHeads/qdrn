@@ -1,0 +1,60 @@
+# DRL Trading Agent — Pipeline Configuration
+# ==========================================
+
+pipeline:
+  log_level: INFO
+  enable_metrics: true
+
+source:
+  source_type: yahoo_finance
+  tickers:
+    - AAPL
+    - GOOGL
+    - MSFT
+    - TSLA
+  start_date: "2024-01-01"
+  end_date: "2024-12-31"
+  timeframe: "1d"
+  rate_limit_delay: 1.0
+  max_retries: 3
+  retry_base_delay: 2.0
+
+transform:
+  transformers:
+    - missing_value_cleaner
+    - feature_engineer
+    - min_max_normalizer
+  feature_window: 60
+  normalization_range: [0.0, 1.0]
+  rsi_period: 14
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  bb_period: 20
+  bb_std: 2.0
+  atr_period: 14
+
+sink:
+  sink_type: sqlite
+  output_path: "./data/processed"
+  database_path: "./data/drl_trading.db"
+  partition_by:
+    - ticker
+    - date
+  compression: snappy
+
+database:
+  database_path: "./data/drl_trading.db"
+  pool_size: 5
+  timeout: 30.0
+  wal_mode: true
+  foreign_keys: true
+  busy_timeout: 5000
+
+risk:
+  max_drawdown_limit: 0.15
+  max_position_size: 0.10
+  max_leverage: 1.0
+  stop_loss_pct: 0.05
+  take_profit_pct: 0.10
+  max_open_positions: 10

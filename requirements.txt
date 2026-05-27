@@ -1,0 +1,24 @@
+# DRL Trading Agent — Dependencies
+# =================================
+
+# Core Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+pyarrow>=14.0.0
+
+# Data Sources
+yfinance>=0.2.30
+
+# Configuration
+pyyaml>=6.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# Type Checking
+mypy>=1.5.0
+
+# Linting
+ruff>=0.1.0
